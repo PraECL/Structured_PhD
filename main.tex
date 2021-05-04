@@ -1,0 +1,73 @@
+%\documentclass[smallextended]{elsarticle} 
+\documentclass[a4paper,12pt,twoside,BCOR=8mm,numbers=noenddot]{scrreprt}
+
+%\documentclass[a4paper,12pt]{scrartcl}
+
+\usepackage{amsmath}
+%\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref,mdwlist}
+
+\usepackage{graphicx,bm,amsmath,color,subfig,tikz,ulem,cancel,amsfonts,mathrsfs,rotating,booktabs,tabulary,amssymb}%\usepackage[math-style=ISO]{unicode-math}
+
+
+
+
+\begin{document}
+
+\begin{table}[htbp]\caption{Table of Notations}
+\centering % to have the caption near the table
+\begin{tabular}{r c p{10cm} }
+\toprule
+$R_{i}$ & $\leq$ &  $i$\\
+$i$ & $\leq$ & index value\\
+${T}_{c}$ & $\leq$ & \\
+$TC$ & $\leq$ & \\  
+\multicolumn{3}{c}{}\\
+\multicolumn{3}{c}{\underline{Decision Variables}}\\
+\multicolumn{3}{c}{}\\
+$y_f$ & $=$ & \(\begin{cases}
+1,  & \text{i} \\
+0,  & \text{j} \end{cases}\)\\
+\bottomrule 
+\end{tabular}
+\label{tab:TableOfNotationForMyResear h}
+\end{table}
+
+%\tableofcontents
+
+
+\input{Introduction/Introduction.tex}
+\input{Chapter1/model_description.tex}
+\input{Chapter2/FEM_modelisation.tex}
+\input{Chapter3/IGA_formulation.tex}
+\input{Chapter4/Optimisation.tex}
+\input{Chapter5/Specific_Optimisation.tex}
+\input{Chapter6/IGA_based.tex}
+%\input{Conclusion/Conclusion.tex}
+
+
+%\subsection{IGA formulation}
+%\input{IGA_formulation.tex}
+%
+%\section{Optimization scheme}
+%\section{FEM optimization}
+%    \subsubsection{Description of the optimization loop}
+%    \subsubsection{Dedicated meta-modelization}
+%    \subsubsection{Results and discussion}
+%
+%\section{IGA based optimization loop}
+%\input{IGA_optimization_setting.tex}
+%\input{IGA_optimization.tex}
+%
+%\section{Conclusion}
+
+\newpage
+
+\bibliographystyle{unsrt}      
+
+\bibliography{stateofartiso,stateofartoptim,squeal,REF} 
+
+
+\end{document}

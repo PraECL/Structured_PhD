@@ -1,0 +1,126 @@
+@Article{Ha2015,
+  author   = {Ha, Youn Doh},
+  title    = {Generalized isogeometric shape sensitivity analysis in curvilinear coordinate system and shape optimization of shell structures},
+  journal  = {Structural and Multidisciplinary Optimization},
+  year     = {2015},
+  volume   = {52},
+  number   = {6},
+  pages    = {1069--1088},
+  month    = {Dec},
+  issn     = {1615-1488},
+  abstract = {A generalized sensitivity formulation described in a curvilinear coordinate system is proposed. Utilizing it, the continuum-based isogeometric shape sensitivity analysis method for the shell components is developed in the curvilinear coordinates derived from the given NURBS geometry. In isogeometric approach, the designs are embedded into the NURBS basis functions and the control points so that geometrically exact shell models can be incorporated in both response and sensitivity analyses. The precise shape sensitivities can be obtained by considering accurate and continuous normal and curvatures in the boundary integrals of the boundary resultants of the shell and their material derivatives. Through numerical examples, the developed isogeometric shape sensitivity is verified to demonstrate excellent agreements with finite difference sensitivity. Also, the importance of higher order geometric information in the sensitivity expressions is identified. For the shape optimization problem of the shell, the proposed method works well with boundary resultants accompanying severe curvature changes.},
+  day      = {01},
+  doi      = {10.1007/s00158-015-1297-x},
+  url      = {https://doi.org/10.1007/s00158-015-1297-x}
+}
+
+@Article{Qian2010,
+  author   = {Xiaoping Qian},
+  title    = {Full analytical sensitivities in NURBS based isogeometric shape optimization},
+  journal  = {Computer Methods in Applied Mechanics and Engineering},
+  year     = {2010},
+  volume   = {199},
+  number   = {29},
+  pages    = {2059 - 2071},
+  issn     = {0045-7825},
+  doi      = {https://doi.org/10.1016/j.cma.2010.03.005},
+  keywords = {Shape optimal design, NURBS, Isogeometric analysis},
+  url      = {http://www.sciencedirect.com/science/article/pii/S0045782510000812}
+}
+
+@Article{Kim,
+  author   = {Kim, Ji-Yeon and Youn, Sung-Kie},
+  title    = {Isogeometric contact analysis using mortar method},
+  journal  = {International Journal for Numerical Methods in Engineering},
+  year     = {2011},
+  volume   = {89},
+  number   = {12},
+  pages    = {1559-1581},
+  abstract = {SUMMARY In the present work, an isogeometric contact analysis scheme using mortar method is proposed. Because the isogeometric analysis is employed for contact analysis, the geometric exactness of the contact region is maintained without any loss of geometric data because of geometry approximation. Thus, the proposed method can overcome underlying shortcomings that result from the geometric approximation of contact surfaces in the conventional finite element (FE)-based contact analysis. For an isogeometric contact analysis, the schemes for treating the contact conditions and detecting the real contact surfaces are essentially required. In the proposed method, the mortar method is adopted as a nonconforming contact treatment scheme because it is expected to be in good harmony with the useful characteristics of nonuniform rational B-spline A new matching algorithm is proposed to combine the mortar method with the isogeometric analysis to guarantee consistent contact surface information with the nonuniform rational B-spline curve. The present scheme is verified by patch test and the well-known problems which have theoretical solutions such as interference fit and the Hertzian contact problem. It is shown that the problems with curved contact surfaces which are difficult to treat by conventional approaches can be easily dealt with. Copyright © 2011 John Wiley \& Sons, Ltd.},
+  doi      = {10.1002/nme.3300},
+  eprint   = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/nme.3300},
+  keywords = {contact problem, isogeometric analysis, mortar method, NURBS},
+  url      = {https://onlinelibrary.wiley.com/doi/abs/10.1002/nme.3300}
+}
+﻿
+
+@Article{Hughes2005,
+  author    = {Hughes, TJR and Cottrell, JA and Bazilevs, Y},
+  title     = {Isogeometric analysis: CAD, finite elements, NURBS, exact geometry and mesh refinement},
+  journal   = {Computer Methods in Applied Mechanics and Engineering},
+  year      = {2005},
+  volume    = {194},
+  number    = {39-41},
+  pages     = {4135-4195},
+  issn      = {0045-7825},
+  doi       = {{10.1016/j.cma.2004.10.008}},
+  eissn     = {{1879-2138}},
+  unique-id = {{ISI:000230451400006}}
+}
+
+@Article{Horn2016,
+  author   = {Benjamin Horn and Stefan Ulbrich},
+  title    = {Shape optimization for contact problems based on isogeometric analysis},
+  journal  = {Journal of Physics: Conference Series},
+  year     = {2016},
+  volume   = {734},
+  number   = {3},
+  pages    = {032008},
+  abstract = {We consider the shape optimization for mechanical connectors. To avoid the gap between the representation in CAD systems and the finite element simulation used by mathematical optimization, we choose an isogeometric approach for the solution of the contact problem within the optimization method. This leads to a shape optimization problem governed by an elastic contact problem. We handle the contact conditions using the mortar method and solve the resulting contact problem with a semismooth Newton method. The optimization problem is nonconvex and nonsmooth due to the contact conditions. To reduce the number of simulations, we use a derivative based optimization method. With the adjoint approach the design derivatives can be calculated efficiently. The resulting optimization problem is solved with a modified Bundle Trust Region algorithm.},
+  url      = {http://stacks.iop.org/1742-6596/734/i=3/a=032008}
+}
+
+@Article{Cardoso2016,
+  author   = {Rui P.R. Cardoso and O.B. Adetoro and D. Adan},
+  title    = {Contact Modelling in Isogeometric Analysis: Application to Sheet Metal Forming Processes},
+  journal  = {Journal of Physics: Conference Series},
+  year     = {2016},
+  volume   = {734},
+  number   = {3},
+  pages    = {032123},
+  abstract = {Isogeometric Analysis (IGA) has been growing in popularity in the past few years essentially due to the extra flexibility it introduces with the use of higher degrees in the basis functions leading to higher convergence rates. IGA also offers the capability of easily reproducing discontinuous displacement and/or strain fields by just manipulating the multiplicity of the knot parametric coordinates. Another advantage of IGA is that it uses the Non-Uniform Rational B-Splines (NURBS) basis functions, that are very common in CAD solid modelling, and consequently it makes easier the transition from CAD models to numerical analysis. In this work it is explored the contact analysis in IGA for both implicit and explicit time integration schemes. Special focus will be given on contact search and contact detection techniques under NURBS patches for both the rigid tools and the deformed sheet blank.},
+  url      = {http://stacks.iop.org/1742-6596/734/i=3/a=032123}
+}
+
+@Article{DeLorenzis,
+  author   = {De Lorenzis, Laura and Wriggers, Peter and Hughes, Thomas J.R.},
+  title    = {Isogeometric contact: a review},
+  journal  = {GAMM-Mitteilungen},
+  year     = {2014},
+  volume   = {37},
+  number   = {1},
+  pages    = {85-123},
+  abstract = {Abstract This paper reviews the currently available computational contact formulations within the framework of isogeometric analysis (IGA). As opposed to conventional Lagrange discretizations, IGA basis functions feature higher and tailorable inter-element continuity, which translates into evident advantages for the description of interacting surfaces, especially in presence of large displacements and large sliding. This has recently motivated the proposal of several isogeometric contact treatments, based on different ways to incorporate the contact contribution into the variational form of a continuum mechanics problem and to formulate its discretized version. After a brief overview of conventional and isogeometric basis functions as well as conventional contact mechanics approaches, the available isogeometric contact formulations are examined. Attention is paid to the favorable and unfavorable features they share with their finite element counterparts, as well as to the consequences stemming from the use of IGA basis functions. The main needs for future research emerging from the current state of the art are outlined. (© 2014 WILEY-VCH Verlag GmbH \& Co. KGaA, Weinheim)},
+  doi      = {10.1002/gamm.201410005},
+  eprint   = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/gamm.201410005},
+  keywords = {contact mechanics, interface modeling, isogeometric analysis, NURBS, smoothing, state of the art review},
+  url      = {https://onlinelibrary.wiley.com/doi/abs/10.1002/gamm.201410005}
+}
+
+@Article{Wang2018,
+  author   = {Cunfu Wang and Songtao Xia and Xilu Wang and Xiaoping Qian},
+  title    = {Isogeometric shape optimization on triangulations},
+  journal  = {Computer Methods in Applied Mechanics and Engineering},
+  year     = {2018},
+  volume   = {331},
+  pages    = {585 - 622},
+  issn     = {0045-7825},
+  doi      = {https://doi.org/10.1016/j.cma.2017.11.032},
+  keywords = {Isogeometric shape optimization, Bézier triangles, Distance constraints, Coarse and fine mesh, Material design, Negative Poisson’s ratio},
+  url      = {http://www.sciencedirect.com/science/article/pii/S0045782517300543}
+}
+
+@Article{Daxini2017,
+  author   = {Daxini, Sachin D. and Prajapati, Jagdish M.},
+  title    = {Parametric shape optimization techniques based on Meshless methods: A review},
+  journal  = {Structural and Multidisciplinary Optimization},
+  year     = {2017},
+  volume   = {56},
+  number   = {5},
+  pages    = {1197--1214},
+  month    = {Nov},
+  issn     = {1615-1488},
+  abstract = {In the product development process, structural optimization plays vital role because it deals with size, shape and topology of the structures. However, structural performance greatly depends on its geometric shape and hence structural shape optimization has remained one of the most active research areas since early 1970s. Conventional parametric shape optimization technique employs grid-based numerical tools like FEM and BEM for structural analysis, which experiences some innate limitations like mesh distortion and frequent remeshing, element locking and poor approximation while dealing with large shape changes during the optimization process. Meshless Methods (MMs) can alleviate these issues when used as a structural analysis tool in shape optimization. In last two decades, MMs have been explored for structural shape optimization along with various deterministic and stochastic optimization algorithms. The objective of present work is twofold, first is to review advanced parametric shape optimization techniques which are based on MMs like Element Free Galerkin (EFG) method and Reproducing Kernel Particle Method (RKPM) for linear elastic, thermoelastic, hyperelastic, frictional contact and structure dynamics optimization problems and second is to emphasize benefits of meshless techniques in shape optimization. Based on the review, the article presents some critical observations including Design Sensitivity Analysis (DSA) in meshless environment, numerical integration techniques in MMs and benefits of coupled FEM-MM approach in shape optimization. At the end, promising future research directions in shape optimization field based on MMs are presented along with concluding remarks.},
+  doi      = {10.1007/s00158-017-1702-8},
+  url      = {https://doi.org/10.1007/s00158-017-1702-8}
+}
