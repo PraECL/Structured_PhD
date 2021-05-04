@@ -1,0 +1,412 @@
+\chapter{IGA formulation}
+\cite{ha2015}
+We start with the definition of B-spline functions with extension to B-spline curves, from which NURBS curves are introduced with the definition of a weighing parameter and a non-uniform knot vector. This is followed by description of higher dimensional geometries through extension by tensor product definition.\\
+ 
+ The B-spline basis functions can be defined by Cox de Boor's formula as follows,
+ 
+\begin{equation}
+{N_{i,0}\left( \xi  \right)} = \left\{ {\begin{array}{cl}
+   1 & {\;{\xi _i} \le \xi  < {\xi _{i + 1}}}  \\
+   0 & {\;otherwise}
+\end{array}} \right.
+\end{equation}
+
+\begin{equation}
+{N_{i,p}\left( \xi  \right)} = \frac{{\xi  - \xi_{i} }}{{{\xi _{i + p}} - {\xi _i}}}{N_{i,p - 1}\left( \xi  \right)} + \frac{{{\xi _{i + p + 1}} - \xi }}{{{\xi _{i + p + 1}} - {\xi _{i + 1}}}}{N_{i + 1,p - 1}\left( \xi  \right)}
+\end{equation}
+
+where $p$ is defined recursively for $p>0$ to obtain a curve of degree $p$, which starts with a piecewise constant at $p=0$. Naturally, a uniform knot vector can be defined as  $\bm \xi  = \left\{ {{\xi _1},{\xi _2}, \cdots ,{\xi _{n + p + 1}}} \right\}$, where any $\xi_i - \xi_{i+1}$ is uniformly spaced.  
+For a uniform knot vector, the bases span with continuity $C^{p-1}$ between the knots, where it satisfies partition of unity $\sum_{i=1}^{n} {N_{i,p}\left( \xi  \right)} = 1$ for $[\xi _p,\xi _{n+1}]$, with $n$ being the number of control points. Further, the span of any ${N_{i,p}\left( \xi  \right)}$ is defined in $[\xi_i,\xi_{i+p+1}]$, and ${N_{i,p}\left( \xi  \right)} \geq 0$, $\forall \xi$.\\
+
+The knot vector need not be equidistant and the multiplicity  of a knot $\xi _i$ by $\mathcal{M}$ in the knot vector decreases the continuity by $C^{p-\mathcal{M}}$ across the knot $\xi _i$,  which defines a non-uniform knot vector. 
+The multiplicity $\mathcal{M}=p$ for the first knot and the last knot defines a open knot vector, where the basis functions model interpolation between the first and the last knots. 
+The basis functions defined with an open knot vector satisfies partition of unity $\forall \xi$. 
+Through B-spline basis functions and a knot vector $\bm \xi  = \left\{ {{\xi _1}, \cdots ,{\xi _{n + p + 1}}} \right\}$, a B-spline curve can be defined with coefficients of the basis functions as follows 
+
+\begin{equation}
+\bm X_c(\xi) =  \sum_{i=1}^n N_{i,p}(\xi)  \bm {{P}}_i
+\end{equation}
+
+where with a open knot vector for a curve, the ends of the curve are $C^0$. The coefficients $\bm{{P}}_i \in \mathbb{R}^{d}$ are the control points, with $d$ being the dimension of the space. The definition of a weighing parameter $w_i >0$ associated with a re spective basis function $N_i$, normalized defines rational B-splines where it respects the partition of unity, given as follows
+\begin{equation}
+\bm X_c(\xi) =  \sum_{i=1}^n\underbrace{\frac{w_iN_{i,p}(\xi)}{\sum_{i=0}^n{w_iN_{i,p}(\xi)}}}_{R_{i,p}}\bm {{P}}_i \label{NURBS_c}
+\end{equation}
+
+The parameter $w_i$ provides a new dimension for controlling the geometry through projective transformation, while the affine transformation is achieved by $\bm{{P}}_i$ . Hence, the combination of non-uniform knot vectors and rational basis functions define NURBS. Further, if all weights are the same, NURBS is simply a B-spline with non-uniform knot vector.\\
+
+%Add figure for projective trans IGA book
+
+The higher dimensional NURBS are a natural extension of its $1$-dimensional precursor through tensor product definition where the order of the tensor is the same as the dimension of the geometry. For a $2$-dimensional geometry, the tensor product NURBS surface is defined as follows
+
+\begin{equation}
+\bm X_s(\xi,\eta) =   \sum_{i=1}^n\sum_{j=1}^m  R_{i,p}(\xi)R_{j,q}(\eta)\bm{{P}}_{i,j} \label{NURBS_s}
+\end{equation}
+
+which is supported by knot vectors $\bm \xi = \left\{ {{\xi _1}, \cdots ,{\xi _{n + p + 1}}} \right\}$ and $\bm \eta = \left\{ {{\eta _1}, \cdots ,{\eta _{m + q + 1}}} \right\}$, for the domain $[\xi_1,\xi_{m+q+1}] \times [\eta_1,\eta_{m+q+1}]$, with $n\times m$ net of control points $\bm{{P}}_{i,j}$. Similarly, to define volume, the tensor product NURBS volume is defined as follows
+
+\begin{equation} \label{NURBS_v}
+\bm X_v(\xi,\eta,\zeta) =   \sum_{i=1}^n\sum_{j=1}^m\sum_{k=1}^l  \underbrace{R_{i,p}(\xi)R_{j,q}(\eta)R_{k,r}(\zeta)}_{R_{i,j,k}(\mathbf{\Xi})}\bm {{P}}_{i,j,k}
+\end{equation}
+
+where the knot vectors are given as $\bm \xi = \left\{ {{\xi _1}, \cdots ,{\xi _{n + p + 1}}} \right\}, \bm \eta = \left\{ {{\eta _1}, \cdots ,{\eta _{m + q    + 1}}} \right\}$ and $\bm \zeta = \left\{ {{\zeta _1}, \cdots ,{\zeta _{l + r + 1}}} \right\}$. \\
+
+The above expression can be simply expressed in matrix form as $\bm X_v(\mathbf{\Xi}) = \mathbf{R(\Xi) \mathbf{P}}$. 
+
+where,
+
+$\mathbf{R(\Xi)}$
+
+\subsubsection{IGA discretization}\label{IGA_contandfric}
+
+We defined the general view of the space ${}_h \bm V$ and now we give a more precise definition of the space with the Isogeometric approach. The main idea with Isogeometric approach is to define ${}_h \bm V$ as the space of the NURBS basis functions which also parameterizes the geometry. 
+The parameterization of a domain $\Omega \in \mathbb{R}^3$ as an initial geometric description through NURBS can be defined as $\breve{\bm {X}}^\mathrm{(k)}_v(\breve{\mathbf{\Xi}}^\mathrm{(k)}) = \breve{{\mathbf{R}}}^\mathrm{(k)} (\breve{\mathbf{\Xi}}^\mathrm{(k)}) \breve{\mathbf{P}}^\mathrm{(k)}$, $\bm X : \hat{\Omega}\rightarrow\Omega$, where $\bm {X}$ defines the mapping from the parametric domain $\hat{\Omega}$ to the physical domain $\Omega$ -- for simplicity, we consider the parameterization of the domain $\Omega_\mathrm{k}$  through a single patch: $[ {\xi _1}, \cdots ,{\xi _{n + p + 1}} ] \times  [ {{\eta _1}, \cdots ,{\eta _{m + q    + 1}}} ] \times [ {\zeta _1}, \cdots ,{\zeta _{l + r + 1}} ]$ . 
+The analysis-suitable parameterization $\bm X$ \footnote{For simplicity of the notation, we define $\bm{X}$ to be the default notation for analysis-suitable parameterization of a domain $\Omega \in \mathbb{R}^3$} can be achieved through the refinement of $\breve{\bm{X}} \rightarrow \bm{X}$ with one or several of the refinement methods ($h$, $p$ and $k$), where $\bm X$ can be defined as ${\bm {X}}_v({\mathbf{\Xi}}) = {\mathbf{{R}}}(\mathbf{\Xi}) \mathbf{{P}}$ to take in to account of the modified knot vectors and control points -- more on parameterization and refinement for our applicative example of disc-pad system is discussed in.\\
+
+The Isogeometric approach for approximation of the solution $\bm{u}_\mathrm{k}$ is achieved through the same NURBS bases $R_{i,j,k}$, where for the vector-valued function space ${}_h\bm V$, the vectorial definition of the bases  $\bm R_{i,j,k} \in \mathbb{R}^3$ can be defined as\\
+
+$ \begin{Bmatrix}
+\begin{bmatrix}
+ R_{i,j,k}\\ 
+ 0\\
+ 0  
+\end{bmatrix}\\ 
+\end{Bmatrix}
+\bigcup
+\begin{Bmatrix}
+\begin{bmatrix}
+ 0\\ 
+ R_{i,j,k}\\
+ 0  
+\end{bmatrix}\\ 
+\end{Bmatrix}
+\bigcup
+\begin{Bmatrix}
+\begin{bmatrix}
+ 0\\ 
+ 0\\
+ R_{i,j,k}  
+\end{bmatrix}\\ 
+\end{Bmatrix}
+$\\
+\\
+
+where in matrix form,
+$\bm R_{i,j,k}({\mathbf{\Xi}}) :=
+ \begin{bmatrix}
+ R_{i,j,k}({\mathbf{\Xi}}) &0 &0 \\ 
+ 0&R_{i,j,k}({\mathbf{\Xi}})&0  \\ 
+ 0 &0&R_{i,j,k}({\mathbf{\Xi}}) \\ 
+\end{bmatrix}$\\
+\\
+
+which is taken in to account through the definition of the matrix $ \mathbf{R(\Xi)}$ and $\mathbf{P}$ as \\
+
+$\mathbf{R(\bm \Xi)} = \begin{bmatrix}
+ \bm R_{1,1,1}({\mathbf{\Xi}}) &\cdots  &\bm R_{n,m,l}({\mathbf{\Xi}})  \\ 
+\end{bmatrix}$
+\\
+\\
+$\mathbf{P} = \begin{bmatrix}
+ P_{1,1,1}^x& 
+P_{1,1,1}^y& 
+P_{1,1,1}^z 
+\cdots&  
+P_{n,m,l}^x& 
+P_{n,m,l}^y& 
+P_{n,m,l}^z 
+\end{bmatrix}^{T}$\\
+
+In a abstract sense, the bases $\bm R_{i,j,k}(\mathbf{\Xi})$ in parametric space is transformed to the bases $\bm \phi_{i,j,k}(x,y,z)$ in physical space using the push-forward operator $\circ$, where the bases $\bm \phi_{\mathrm{i}}$ is defined with the property $\bm \phi_\mathrm{i}=\bm \phi_{i,j,k}(\bm X)= \bm R_{i,j,k}(\mathbf{\Xi}) \circ \bm{X}^{-1}$. Hence, the approximation of a field variable on $\Omega$ is defined through all the bases $\bm \phi_\mathrm{i}$ spanning the finite-dimensional function space $\bm \Phi$.
+Considering Eq.   with the Isogeometric approach, the finite-dimensional space ${}_h\bm V \to \bm \Phi$, and its associated bases ${}_h \bm v_{\mathrm{i}} \rightarrow \bm \phi_{\mathrm{i}}$. 
+The approximation of $\widetilde{\bm {u}} \in \bm \Phi$ can be defined as ${}_h \widetilde{\bm u} =  \sum_{\forall \mathrm{i} \in \Omega} \bm \phi_{\mathrm{i}} \widetilde{ \bm u}_{\mathrm{i}}$, expressed in matrix form as ${}_h \widetilde{\bm u} = \bm N(\bm X) \bm U$, where\\ 
+
+$ \bm N(\bm X)  
+= \begin{bmatrix}
+ \bm \phi_{\mathrm{i}}(\bm X) &\cdots   &\bm \phi_{n\times m \times l}(\bm X) \\ 
+\end{bmatrix}$\\
+\\
+$\bm {U} = \begin{bmatrix}
+ U_{\mathrm{i}}^x& 
+U_{\mathrm{i}}^y& 
+U_{\mathrm{i}}^z& 
+\cdots& 
+U_{n\times m \times l}^x& 
+U_{n \times m \times l}^y&
+U_{n \times m \times l}^z& 
+\end{bmatrix}^T$\\
+
+When $\Gamma_C = \emptyset$, the Eq. can be simply expressed in matrix form as
+
+\begin{multline} \label{weak_pert_2}
+\sum_{\mathrm{k}=1}^{\mathrm{n}_{\mathrm{\mathrm{k}}}}   \bigg\{ \int_{\Omega^{(k)}}\rho^\mathrm{(k)} {}_h \bm{\ddot{\widetilde{u}}}^\mathrm{(k)}. {}_h \bm v_i^\mathrm{(k)} +\int_{\Omega^{(k)}} \bm{\sigma}^\mathrm{(k)}({}_h \bm{\widetilde u}^\mathrm{(k)}) : {}_h \bm v_i^\mathrm{(k)}\\  
++\int_{\Gamma^{(k)}_C}  \mathit{p}[({{}_h\widetilde{\bm u}}^{(\mathrm k)} - {{}_h \widetilde{\bm u}}^{ (\sim \mathrm k)}). \bm{\hat{v}}_n]  {}_h \bm v_i^\mathrm{(k)}. \bm{\hat{v}}_n 
+-\int_{\Gamma^{(k)}_C}  \mu \mathit{p}[({{}_h\widetilde{\bm u}}^{(\mathrm k)} - {{}_h\widetilde{\bm u}}^{(\sim \mathrm k)}). \bm{\hat{v}}_n]  {}_h \bm v_i^\mathrm{(k)}. \bm{\hat{v}}_k  \bigg\} = 0 \qquad \forall {}_h \bm v_i \in {}_h \bm V
+\end{multline} 
+
+For the following explanation, we consider contact between two domains $\Omega_a$ and $\Omega_b$, where the formulation for contact and friction are given in Eq.\eqref{pert_cont} and Eq.\eqref{pert_fric} respectively.
+The parameterization of the domains $\Omega^{(a)}$ and  $\Omega^{(b)}$ defined through NURBS can be expressed as $\bm X^{(a)} =\mathbf{R}^{(a)}(\bm \Xi^{(a)})$ and $\bm X^{(b)} =\mathbf{R}^{(b)}(\bm \Xi^{(b)})$.
+For the perturbed displacement field $\bm{\widetilde{u}}$ around a equilibrium $\bm u_{eq}$, $\Gamma_C$ was hypothesized to be stationary, where the effect of $\bm{\widetilde{u}}$ for a stationary $\Gamma_C$ was modelled through the normal compliance approach. Hence, $\Gamma_C$ is known a prior from the solution $\bm u_{eq}$ in solving for an equilibrium configuration. Further, $\Gamma_C: g_n = 0$, i.e., $\bm X^{(a)}.\bm{\hat{v}_n}={\overleftarrow{\bm X}^{(b)}}.\bm{\hat{v}_n}$, where $\bm{\hat{v}_n}$ in this case is taken to be the outward normal projection from the slave side $\Gamma^{(a)}$ to the master side $\Gamma^{(b)}$. This means that ${\overleftarrow{\bm X}^{(b)}}: {\overleftarrow{\bm X}^{(b)}}(\bm X^{(a)})$, where for $\bm X^{(a)}$ that parametrizes $\Gamma_C^{(a)}$, a projection exists that maps $\bm X^{(a)}$ on $\Gamma_C^{(b)}$ as ${\overleftarrow{\bm X}^{(b)}}$. 
+For the following explanations, we detail the derivation of traction forces on $\Gamma^{\mathrm{(a)}}$ which also similarly applies for $\Gamma^{\mathrm{(b)}}$. 
+The approximation of ${\langle \bm{\sigma}^{\mathrm{(a)}}_n, \delta \bm u^{\mathrm{(a)}} \rangle_{\Gamma_C^{\mathrm{(a)}}}}$ and $ {\langle \bm{\sigma}^{\mathrm{(a)}}_t, \delta \bm u^{\mathrm{(a)}} \rangle_{\Gamma_C^{\mathrm{(a)}}}} $ in the function space $\bm \Phi$ can be defined as
+
+\begin{multline}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}} =\\
+\int_{\Gamma^{(a)}_C} p[(\bm N^{\mathrm{(a)}}(\bm X^{\mathrm{(a)}})\bm U^{\mathrm{(a)}} - \bm N^{\mathrm{(b)}}(\overleftarrow{\bm X}^{(b)})\bm U^{\mathrm{(b)}}).\bm{\hat{v}}_n] \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_n \,\, d\Gamma^{(a)}_C  \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+\begin{multline}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}} =\\
+\int_{\Gamma^{(a)}_C} \mu p[(\bm N^{\mathrm{(a)}}(\bm X^{\mathrm{(a)}})\bm U^{\mathrm{(a)}} - \bm N^{\mathrm{(b)}}(\overleftarrow{\bm X}^{(b)})\bm U^{\mathrm{(b)}}).\bm{\hat{v}}_n] \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_t \,\, d\Gamma^{(a)}_C \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+where in matrix form,\\
+
+$\bm \phi_{\mathrm{i}}.\bm{\hat{v}}:=
+\begin{bmatrix}
+ \phi_{i,j,k}(\bm X){\hat{v}}^x &0   &0\\ 
+ 0 & \phi_{i,j,k}(\bm X){\hat{v}}^y   &0\\
+ 0 &0   & \phi_{i,j,k}(\bm X){\hat{v}}^z
+\end{bmatrix}
+$\\
+\\
+
+The expression for ${\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}}$ and ${\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}}$ can be further expanded as 
+
+\begin{multline}\label{cont_proj}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}} =\\
+\int_{\Gamma^{(a)}_C} p[( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_n)(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_n)(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C \\ \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+\begin{multline}\label{fric_proj}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\Gamma_C^{\mathrm{(a)}}}} =\\
+\int_{\Gamma^{(a)}_C} \mu p[( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_t)(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_t)(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C \\ \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+where \\
+\\
+$\bm N.\bm{\hat{v}}:=
+\begin{bmatrix}
+ \bm \phi_{1}(\bm X).\bm{\hat{v}} &\cdots   &\bm \phi_{n\times m \times l}(\bm X).\bm{\hat{v}} \\ 
+\end{bmatrix}
+$\\
+\\
+$\bm U^{(a,b)} = 
+\begin{bmatrix}
+{\bm U^{(a)}}\\
+{\bm U^{(b)}}
+\end{bmatrix}
+$\\
+\\
+
+\iffalse
+Or alternalively, the expressions Eq. \eqref{cont_proj} and Eq. \eqref{fric_proj} can be defined as
+
+\begin{equation}\label{cont_proj1}
+\mathbf{K}^{(a)}_C=
+\sum_{\forall \bm i \in \bm I^{(a)}}p[(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C
+\end{equation}
+
+\begin{equation}\label{fric_proj1}
+\mathbf{K}^{(a)}_F=
+\sum_{\forall \bm i \in \bm I^{(a)}} \mu p[(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C
+\end{equation}\\
+\\
+\fi
+ 
+We expand the terms of the form  
+$\int_{\Gamma^{(a)}_C} \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \bm N^{\mathrm{(b)}}(\bm X^{\mathrm{(b)}}) \,\, d\Gamma^{(a)}_C$ \footnote{For simplicity of the expansion, we ignore the unit vectors $\bm{\hat{v}}_n$ and $\bm{\hat{v}}_t$} in Eq. \eqref{cont_proj} and Eq. \eqref{fric_proj}, given as\\
+\\
+ \begin{multline}
+  \int_{\Gamma^{(a)}_C}  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \bm N^{\mathrm{(b)}}(\bm X^{\mathrm{(b)}}) d\Gamma^{(a)}_C =\\ \bigg[ \int_{\Gamma^{(a)}_C} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}(\bm X^{\mathrm{(a)}}).\bm  \phi^{\mathrm{(b)}}_{\mathrm{1}}(\overleftarrow{\bm X}^{(b)}(\bm X^{\mathrm{(a)}}))\,\, d\Gamma^{(a)}_C \quad \cdots\\ \quad  \int_{\Gamma^{(a)}_C} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}(\bm X^{\mathrm{(a)}}). \bm  \phi^{\mathrm{(b)}}_{\mathrm{n \times m \times l}}(\overleftarrow{\bm X}^{(b)}(\bm X^{\mathrm{(a)}}))\,\,d\Gamma^{(a)}_C \bigg]
+\end{multline} \\
+ 
+ where the integral is simultaneously defined over the bases of the two contact domains, since $\bm \phi^{(a)} \in H^{-1/2}(\Gamma^{(a)})_C$ and $\bm \phi^{(b)} \in H^{-1/2}(\Gamma^{(b)}_C)$.
+ Even though the definition of integral is possible for $\bm  \phi^{\mathrm{(b)}}_{\mathrm{1}}(\overleftarrow{\bm X}^{(b)}(\bm X^{\mathrm{(a)}}))$ on $\Gamma_C^{(a)}$,
+ for dissimilar meshes at the contact interface, the definition of numerical quadrature scheme for the integral demands domain decomposition to find the common span: $\bm \phi^{(a)}_{\mathrm{i}\in \Gamma_C^{(a)}}  \cap \bm \phi^{(b)}_{\mathrm{j}\in \Gamma_C^{(b)}}$. This means that the integral can only be defined through a quadrature scheme specific on the span of $\bm \phi^{(a)}_{\mathrm{i}\in \Gamma_C^{(a)}}$ or $\bm \phi^{(b)}_{\mathrm{j}\in \Gamma_C^{(b)}}$ for which the projection $\bm \phi^{(a)}_{\mathrm{i}\in \Gamma_C^{(a)}} \bm \phi^{(b)}_{\mathrm{j}\in \Gamma_C^{(b)}} \neq 0$. Alternatively, this can be viewed as the projection of $\bm \phi^{(a)}_{\mathrm{i}\in \Gamma_C^{(a)}} $ on $\bm \phi^{(b)}_{\mathrm{j}\in \Gamma_C^{(b)}}$ for which the relation of weak sense should hold, given as 
+
+\begin{multline}\label{int_part_unity}
+\int_{\Gamma^{(a)}_C} [\bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.\bm  \phi^{\mathrm{(a)}}_{\mathrm{1}} +\quad \cdots \quad  +\bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}. \bm  \phi^{\mathrm{(a)}}_{\mathrm{n \times m \times l}}]\,\,d\Gamma^{(a)}_C =\\
+ \int_{\Gamma^{(a)}_C} [\bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.\bm  \phi^{\mathrm{(b)}}_{\mathrm{1}} +\quad \cdots \quad  +\bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}. \bm  \phi^{\mathrm{(b)}}_{\mathrm{n \times m \times l}} ] \,\,d\Gamma^{(a)}_C 
+\end{multline}    
+    
+where it verifies the conservation of momentum at the contact interface. We satisfy the relation in an approximate sense, where we consider the integral $\int_{\Gamma_C} \bm \phi_{\mathrm i} \,\, d\Gamma_C$ on one of the domains -- in this case $\Gamma^{(a)}$ -- through collocation defined as  $\int_{\Gamma_C^{(a)}}  \bm \phi_{\mathrm i}^{(a)} d \Gamma_C^{(a)} \rightarrow \sum_{\forall \bm i \in \bm I^{(a)}} {}^{\bm i}\bm \phi_{\mathrm i}^{(a)}$ where $\bm I^{(a)}$ is the set of points on $\Gamma_C^{(a)}$ which depends on the collocation scheme. 
+Hence, for Eq. \eqref{int_part_unity}, the integral for the projection of $\bm \phi_{\mathrm{i}}^{(a)}$ on the bases in $H^{-1/2}(\Gamma^{(a)}_C)$ and $H^{-1/2}(\Gamma^{(b)}_C)$ can be given through collocation as 
+
+\begin{multline}\label{sum_part_unity}
+\sum_{\forall \bm i \in \bm I^{(a)}} [{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{1}} +\quad \cdots \quad  +{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}. {}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{n \times m \times l}}]=\\
+\sum_{\forall \bm i \in \bm I^{(a)}} [{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{1}} +\quad \cdots \quad  +{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}. {}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{n \times m \times l}} ] 
+\end{multline}    
+
+where ${}^{\bm i} \bm  \phi^{\mathrm{(a)}}:= \bm  \phi^{\mathrm{(a)}}({}^{\bm i} \bm X^{\mathrm{(a)}})$ and  ${}^{\bm i} \bm  \phi^{\mathrm{(b)}}:= \bm  \phi^{\mathrm{(b)}}(\overleftarrow{\bm X}^{(b)}({}^{\bm i} \bm X^{\mathrm{(a)}}))$. 
+This implicitly satisfies the conditions for conservation of momentum even though the integral $\int_{\Gamma^{(a)}_C} (\bm  \phi^{\mathrm{(a)}}_{\mathrm{i}})(\bm  \phi^{\mathrm{(b)}}_{\mathrm{1}})\,\, d\Gamma^{(a)}_C$ may not be defined accurately. But this can effect the continuity of the solution, which is typically verified through Patch-test. For any $\bm i$, the following relation also holds
+
+\begin{multline}\label{part_unity}
+ [{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{1}} +\quad \cdots \quad  +{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{n \times m \times l}}]=\\
+ [{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{1}} +\quad \cdots \quad  +{}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}.{}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{n \times m \times l}} ] = {}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}
+\end{multline}    
+
+This means that any quantity defined through collocation at $\bm i$ over ${}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}$ is projected equally over the bases in $H^{-1/2}(\Gamma^{(a)}_C)$ and $H^{-1/2}(\Gamma^{(b)}_C)$. It should be noted that the collocation strategy  can be replaced by a numerical quadrature scheme as $\int_{\Gamma_C^{(a)}} \bm \phi_{\mathrm i}^{(a)} d {\Gamma_C^{(a)}}  \approx \sum_{\forall \bm i \in \bm I^{(a)}} {}^{\bm i}w \,\,  {}^{\bm i}\bm \phi_{\mathrm i}^{(a)}$ where $\bm I^{(a)}$ in this case corresponds to the quadrature points with ${}^{\bm i}w$ being the quadrature weights, but the notion of ${}^{\bm i} w$ on $\bm  \phi^{\mathrm{(b)}} \in H^{-1/2}(\Gamma^{(b)}_C)$ may not be realistic when ${}^{\bm i} w$ is defined for $\bm \phi^{(a)} \in H^{-1/2}(\Gamma^{(a)}_C)$.\\
+
+The Eq. \eqref{cont_proj} and Eq. \eqref{fric_proj} defined through collocation can be expressed as\\
+
+\begin{multline}\label{cont_proj1}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\bm I^{(a)}}} =\\
+\sum_{\forall \bm i \in \bm I^{(a)}}p[( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_n)(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_n)(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C \\ \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+\begin{multline}\label{fric_proj1}
+{\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{\bm I^{(a)}}} =\\
+\sum_{\forall \bm i \in \bm I^{(a)}} \mu p[( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_t)(\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad( \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} . \bm{\hat{v}}_t)(- \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)} \,\, d\Gamma^{(a)}_C \\ \qquad \forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}} \in \bm\Phi^{\mathrm{(a)}}  
+\end{multline}
+
+Or alternalively can be expressed as
+
+ \begin{equation}\label{cont_dis1}
+\mathbf{K}^{(a)}_C=\sum_{\forall \bm i \in \bm I^{(a)}} p[({}^{\bm i} \bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T({}^{\bm i}\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T(- {}^{\bm i} \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)}
+\end{equation}
+
+\begin{equation}\label{fric_dis1}
+\mathbf{K}^{(a)}_F=\sum_{\forall \bm i \in \bm I^{(a)}} \mu p[({}^{\bm i} \bm N^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T({}^{\bm i}\bm N^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \bm N^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T(- {}^{\bm i} \bm N^{\mathrm{(b)}}.\bm{\hat{v}}_n)] \bm U^{(a,b)}
+\end{equation}\\
+
+where ${}^{\bm i} \bm N := 
+\begin{bmatrix}
+{}^{\bm i} \bm \phi_{1} &\cdots   &{}^{\bm i}\bm \phi_{n\times m \times l} \\ 
+\end{bmatrix}$\\
+\\
+Similar to the Isoparametric approach in the classical FEM, the integral is defined over the parametric domain $\hat \Omega$, where the above expressions can be defined as
+
+\begin{equation}\label{cont_dis2}
+\mathbf{K}^{(a)}_C=
+\sum_{\forall \bm i \in \bm I^{(a)}} \big[ p[({}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T({}^{\bm i}\mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n)^T(-{}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)] |{}^{\bm i} \bm J^{(a)}| \big] \bm U^{(a,b)}\\
+\end{equation}
+
+\begin{equation}\label{fric_dis2}
+\mathbf{K}^{(a)}_F=
+\sum_{\forall \bm i \in \bm I^{(a)}} \big[ \mu p[({}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T({}^{\bm i}\mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_t)^T(-{}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)] |{}^{\bm i} \bm J^{(a)}| \big] \bm U^{(a,b)}\\
+\end{equation}\\
+
+where ${}^{\bm i}\mathbf{R} := \mathbf{R} ({}^{\bm i}\bm \Xi)$, with ${}^{\bm i}\bm \Xi$ being the collocation point in the parametric space. 
+While, ${}^{\bm i}\bm \Xi^{\mathrm{(b)}}$ is the corresponding map of $\overleftarrow{\bm X}^{\mathrm{(b)}}$ in the parametric space, which can determined through Newton-Rhapson method in solving for ${\bm X}^{(b)}({}^{\bm i}\bm \Xi^{(b)})=\overleftarrow{\bm X}^{(b)}(\bm X^{(a)}({}^{\bm i} \bm \Xi^{(a)}))$.
+Hence, there exists a mapping ${}^{\bm i} \bm \Xi^{(a)} \rightarrow {}^{\bm i} \bm \Xi^{(b)}$ for which $\bm X^{(a)}({}^{\bm i} \bm \Xi^{(a)})= {\bm X}^{(b)}({}^{\bm i}\bm \Xi^{(b)})$.\\
+
+From the conservation of momentum at the interface, the following relation holds $\bm{\sigma}^{\mathrm{(a)}}_n = - \bm{\sigma}^{\mathrm{(b)}}_n$ and $\bm{\sigma}^{\mathrm{(a)}}_t = - \bm{\sigma}^{\mathrm{(b)}}_t$. Hence, the traction stresses at the interface $\Gamma^{\mathrm{(b)}}$ can be similarly defined as
+
+ \begin{multline}\label{cont_dis3}
+\mathbf{K}^{(a)}_C =
+\sum_{\forall \bm i \in \bm I^{(a)}} \big[ p[({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)^T(- {}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)^T({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)] |{}^{\bm i} \bm J^{(a)}| \big] \bm U^{(a,b)} 
+\end{multline}
+
+\begin{multline}\label{fric_dis3}
+\mathbf{K}^{(a)}_F =
+\sum_{\forall \bm i \in \bm I^{(a)}} \big[ p[({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_t)^T(- {}^{\bm i} \mathbf{R}^{\mathrm{(a)}}.\bm{\hat{v}}_n) \quad({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_t)^T({}^{\bm i} \mathbf{R}^{\mathrm{(b)}}.\bm{\hat{v}}_n)] |{}^{\bm i} \bm J^{(a)}| \big] \bm U^{(a,b)} 
+\end{multline}\\
+
+Hence, the contact stiffness matrix $\mathbf{K}_C$ and the friction matrix $\mathbf{K}_F$ for the system can be defined as \\
+\\
+$\mathbf{K}_C=
+\begin{bmatrix}
+\mathbf{K}^{(a)}_C\\
+\mathbf{K}^{(b)}_C
+\end{bmatrix}$
+and 
+$\mathbf{K}_F=
+\begin{bmatrix}
+\mathbf{K}^{(a)}_F\\
+\mathbf{K}^{(b)}_F
+\end{bmatrix}$\\
+\\
+It should be noted that, for the Eqns. \eqref{cont_dis3} and \eqref{fric_dis3} even though the integral should be defined over $\Gamma^{\mathrm{(b)}}$ as $\langle {}_h\bm{\sigma}^{\mathrm{(b)}},  \bm \phi^{\mathrm{(b)}}_{\mathrm{i}} \rangle_{ \Gamma^{(\mathrm{b})}}$, the collocation points ${\bm I^{(a)}}$ are determined only on $\Gamma^{\mathrm{(a)}}$, 
+where its corresponding projection on $\Gamma^{\mathrm{(b)}}$ is defined through the projection  $\overleftarrow{\bm X}^{(b)}$. 
+This is commonly also known as one-pass.  The Eqns. \eqref{cont_dis3} and \eqref{fric_dis3} can be further simplified based on the relation \eqref{part_unity}, where the following could be stated
+
+\begin{equation}
+{}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}} = \sum_{\forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}}} {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{j}} = {}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}
+\end{equation}
+
+\begin{equation}
+{}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}} = \sum_{\forall \bm \phi^{\mathrm{(b)}}_{\mathrm{i}\in \Gamma_C^{(b)}}} {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{j}} = {}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{i}}
+\end{equation}
+This is similar to the lumping approach where the off-diagonal terms of a row is summed to the diagonal. 
+It should be noted that, also the following relation holds
+
+\begin{equation}\label{bases_ab}
+{}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}} = \sum_{\forall \bm \phi^{\mathrm{(a)}}_{\mathrm{i}\in \Gamma_C^{(a)}}} {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{j}} = {}^{\bm i} \bm  \phi^{\mathrm{(a)}}_{\mathrm{i}}
+\end{equation}
+
+\begin{equation}\label{bases_ba}
+{}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}} = \sum_{\forall \bm \phi^{\mathrm{(b)}}_{\mathrm{i}\in \Gamma_C^{(b)}}} {}^{\bm i} \bm \phi^{(\mathrm{b})}_{\mathrm{i}}. {}^{\bm i} \bm \phi^{(\mathrm{a})}_{\mathrm{j}} = {}^{\bm i} \bm  \phi^{\mathrm{(b)}}_{\mathrm{i}}
+\end{equation}
+
+but only the inner product of the bases from the same space can be lumped, i.e, even though the above relations hold, it can not be lumped since the inner product of the bases are from different space and hence not possible to collocate on to a diagonal term of any particular basis. Moreover, it will not satisfy conservation of momentum with the above case but the relations implicitly define the conservation of momentum at the interface and hence cannot be lumped.
+Further, the analyses show nearly no variation between the lumping approach and the default formulation, hence we use this property as an advantage where only off diagonal terms have to stored in memory.\\
+
+As a side note, It is well known that the choice of master and slave can lead to bias with on-pass. The bias can be eliminated by the so called two-pass formulation where after one-pass, the role of the master and the slave is switched, and the average of the projections is taken in to account, given for $\Gamma_C^{(a)}$ as
+ 
+ \begin{equation}
+ {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(a,b)}}}=
+\frac{1}{2} {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(a)}}}+
+\frac{1}{2} {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_n,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(b)}}}
+ \end{equation}
+ 
+  \begin{equation}
+ {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(a,b)}}}=
+\frac{1}{2} {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(a)}}}+
+\frac{1}{2} {\langle {}_h\bm{\sigma}^{\mathrm{(a)}}_t,  \bm \phi^{\mathrm{(a)}}_{\mathrm{i}} \rangle_{ \bm I^{(b)}}}
+ \end{equation}
+ 
+ and could be defined otherwise for $\Gamma_C^{(a)}$. The difference with one-pass and two-pass was found to have no effect in our application and hence we stick with the one-pass formulation.\\
+ 
+ \iffalse
+ The equation could be further simplified where the projection of a basis $\bm \phi^{\mathrm{(k)}}$ in it's own space  $H^{-1/2}(\Gamma^{(\mathrm{k})}_C)$ can be defined through Kronecker delta product as
+ 
+ \begin{equation}
+\langle \bm \phi_{i}^{(\mathrm{k})}, \bm \phi_{j}^{(\mathrm{k})} \rangle = \delta_{(i,j)}^{(\mathrm{k})} = \left\{ {\begin{array}{cl}
+   1 & {i=j}  \\
+   0 & {i \neq j}
+\end{array}} \right.
+\end{equation}
+\fi 
+ 
+
+
+\iffalse
+The Isogeometric approach for approximation of the solution $\bm{u}_\mathrm{k}$ is achieved through the same NURBS bases $R_{i,j,k}(\mathbf{\Xi}_\mathrm{k})$ in $\mathbf{\overline{R}_\mathrm{k}(\Xi_\mathrm{k})}$ which was used to achieve an analysis-suitable parametrization of $\Omega_{\mathrm{k}}$, where $R_{i,j,k}(\mathbf{\Xi})$ defines trivariate spline bases for approximation of $\bm{u} \in \mathrm{R}^3$. 
+And in abstract sense, the bases $R_{i,j,k}(\mathbf{\Xi})$ in parametric space is transformed to the bases $\varphi_{i,j,k}(.)$ in physical space using the push-forward operator $\circ$, where the bases $\varphi_{\mathrm{i}}$ for approximation is defined with the property $\varphi_\mathrm{i}=\varphi_{i,j,k}(.)=R_{i,j,k}(\mathbf{\Xi}) \circ \overline{X}^{-1}$.
+Hence, the approximation of a field variable in $\Omega_\mathrm{k}$ is defined through all the bases $\varphi_{\mathrm{k},\mathrm{i}}$ spanning the finite dimensional function space $\Phi_\mathrm{k} := H_{0,\Gamma_{D,\mathrm{k}}}^1(\Omega_{\mathrm{k}})$. With the approximation of $u_{\mathrm{k}} \in \Phi_\mathrm{k}$, expressed in matrix form as $u_\mathrm{k} \approx \Phi_\mathrm{k}^T U_\mathrm{k}$ \footnote{We use the same notation for the function space $\Phi:= span\{\varphi_1,\hdots,\varphi_{(.)}\}$ and the matrix $\Phi$ containing the bases $\varphi_{\mathrm{i}}$.} and the application of Galerkin's method to Eq. \eqref{cont_eq1} leads to the following expression:
+
+\begin{equation}
+   \int_{\Omega_\mathrm{k}}\rho_\mathrm{k} \Phi^T_\mathrm{k} \varphi_{\mathrm{k},\mathrm{i}} \ddot{U}_\mathrm{k}\,\, d\Omega_\mathrm{k}+\int_{\Omega_\mathrm{k}}[\nabla\bm{\sigma}_\mathrm{k}(\Phi_\mathrm{k})]^T\varphi_{\mathrm{k},\mathrm{i}} U_\mathrm{k} \,\, d\Omega_\mathrm{k}=0 \qquad \forall \varphi_{\mathrm{k},\mathrm{i}} \in \Phi_\mathrm{k} \label{cont2}
+\end{equation}
+
+The above weak form is reduced through expansion of the term $[\nabla\bm{\sigma}_\mathrm{k}(\Phi_\mathrm{k})]^T \varphi_{\mathrm{k},\mathrm{i}}$ by Green's identity  for $\mathrm{n}_{\mathrm{\mathrm{k}}}$ domains in contact, given as
+
+\begin{multline}
+\sum_\mathrm{k}^{\mathrm{n}_{\mathrm{\mathrm{k}}}}  \int_{\Omega_\mathrm{k}}\rho_\mathrm{k} \Phi^T_\mathrm{k} \varphi_{\mathrm{k},\mathrm{i}} \ddot{U}_\mathrm{k}\,\, d\Omega_\mathrm{k}+\int_{\Omega_\mathrm{k}}[\bm{\sigma}_\mathrm{k}(\Phi_\mathrm{k})]^T \partial{\varphi}_{\mathrm{k},\mathrm{i}} U_\mathrm{k} \,\,d\Omega_\mathrm{k}\\
+-\underbrace{\int_{\Gamma_{c_\mathrm{k}}}F_{c_\mathrm{k}}\varphi_{\mathrm{k},\mathrm{i}}\,\,d\Gamma_{c_\mathrm{k}}}_{\langle F_{c_\mathrm{k}},\varphi_{\mathrm{k},\mathrm{i}} \rangle}- \underbrace{\int_{\Gamma_{c_\mathrm{k}}}F_{f_\mathrm{k}}\varphi_{\mathrm{k},\mathrm{i}}\,\,d\Gamma_{c_\mathrm{k}}}_{\langle F_{f_\mathrm{k}},\varphi_{\mathrm{k},\mathrm{i}} \rangle} =0 \\
+\qquad \forall \varphi_{\mathrm{k},\mathrm{i}} \in \Phi_\mathrm{k} \label{cont3}
+\end{multline}
+
+%\begin{equation}
+    %\sum_k^{n_k}  \int_{\Omega_k}\rho_k \Phi^T_k \varphi_{k,i} \ddot{U}_k d\Omega_k+\int_{\Omega_k}[\bm{\sigma}_k(\Phi_k)]^T d{\varphi}_{k,i} U_k d\Omega_k- \underbrace{\int_{\Gamma_{c_k}}F_{c_k}\varphi_{k,i}\,d\Gamma_{c_k}}_{\langle F_{c_k},\varphi_{k,i} \rangle}- \underbrace{\int_{\Gamma_{c_k}}F_{f_k}\varphi_{k,i}\,d\Gamma_{c_k}}_{\langle F_{f_k},\varphi_{k,i} \rangle} =0 \qquad \forall \varphi_{k,i} \in \Phi_k \label{cont3}
+%\end{equation}
+
+where $F_{c}$ and $F_{f}$ represent the traction forces for contact and friction respectively, which are defined independently on their respective domains. When $F_{c_\mathrm{k}}=F_{f_\mathrm{k}}=0$, the classical expression for dynamics can be deduced independently for the domain $\Omega_\mathrm{k}$ as
+
+\begin{equation}
+    \mathbf{M}_\mathrm{k}\ddot{U}_\mathrm{k}+\mathbf{K}_\mathrm{k}U_\mathrm{k}=0
+\end{equation}
+
+where $\mathbf{M}$ and $\mathbf{K}$ represent the classical mass and stiffness matrices. The definition of traction forces require a system level description of the system, which is briefed in the next sub-section.
+\fi
+
+    %\subsubsection{IGA advantages}
+    
+    
+    %\subsubsection{Contact formulation}
+    
+    We explore the contact patch test for different numerical quadrature schemes on various discretisation settings between two blocks in contact with each other.
+    The lower block is fixed on the bottom face, while a uniform load of $1 \mathrm{K N}$
+    
+    
+   % \subsubsection{Squeal noise quality output}
