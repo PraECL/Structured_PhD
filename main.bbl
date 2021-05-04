@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{ha2015}
+Youn~Doh Ha.
+\newblock Generalized isogeometric shape sensitivity analysis in curvilinear
+  coordinate system and shape optimization of shell structures.
+\newblock {\em Structural and Multidisciplinary Optimization},
+  52(6):1069--1088, Dec 2015.
+
+\bibitem{Shahriari}
+B.~{Shahriari}, K.~{Swersky}, Z.~{Wang}, R.~P. {Adams}, and N.~{de Freitas}.
+\newblock Taking the human out of the loop: A review of bayesian optimization.
+\newblock {\em Proceedings of the IEEE}, 104(1):148--175, 2016.
+
+\end{thebibliography}
